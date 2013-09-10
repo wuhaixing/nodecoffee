@@ -1,7 +1,52 @@
-doctype 5
-html
-  head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body
-    block content
+!!! 5
+html(lang='en')
+    head
+        meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
+        meta(charset='utf-8')
+        meta(name='viewport', content='width=device-width, initial-scale=1.0')
+        meta(name='description', content='Node.js开发者社区')
+        meta(name='author', content='[wuhaixing]AT[gmail.com]')
+        title
+            block title
+        // Bootstrap core CSS
+        != css('bootstrap')
+        != css('carousel')
+        != css('style')
+        // if lte IE 9
+          !css('style-ie9-lte')
+
+        //if lt IE 9
+          script(src='http://html5shim.googlecode.com/svn/trunk/html5.js')
+
+    body
+        include ./tiles/header
+        block content 
+        a(id="scrollUp",href="#top",style="position: fixed; z-index: 2147483647;display:none;") 
+
+        footer.footer
+            .container
+                .row
+        
+        // Bootstrap core JavaScript 
+        // Placed at the end of the document so the pages load faster
+        != js(src='jquery')
+        != js(src='bootstrap.min')
+        != js(src='holder')
+        != js(src='jquery.validate.min')
+        != js(src='jquery.validate.localization/messages_zh')
+        script(type='text/javascript').
+          function setHeaderTab(tab){
+            $('ul.nav li').removeClass('active');
+            $('ul.nav li#nav-' + tab).addClass('active');
+          }
+          $(window).scroll(function() {
+              if ($(window).scrollTop() > 100) {
+                $("#scrollUp").fadeIn(200);
+                $('.navbar').addClass('navbar-fixed-top'); 
+              } else {
+                $("#scrollUp").fadeOut(200);
+                $('.navbar').removeClass('navbar-fixed-top');
+              }
+          }); 
+
+        block javascript  

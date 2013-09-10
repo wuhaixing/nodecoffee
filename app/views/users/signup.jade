@@ -1,0 +1,102 @@
+extends ../layout
+
+block title
+  | 注册
+
+block content
+  .container(style='margin-top:40px;')
+    hr
+    .row
+      .col-md-8
+        h2 注册成为NodeCoffee用户
+      .col-md-2.col-md-offset-2
+        h2
+          small
+            button.btn.btn-primary 用已有帐号登录  
+    hr
+    .well
+      .row
+        .col-md-6(style='border-right:1px solid #cccccc;')
+          h4 创建个人帐号
+          if typeof errors != 'undefined' && errors != null
+            .alert.alert-danger.alert-dismissable
+              button(type="button",class="close",data-dismiss="alert",aria-hidden="true") &times;
+              for error in errors
+                p #{error.msg}
+          form(id='signup-form',action="/signup", method="post",role='form')
+            .form-group 
+              label(for='username') 用户名
+              input#username.form-control(type='text', name="username", value=user.username)
+            .form-group 
+              label(for='email') Email
+              input#email.form-control(type='email', name="email", value=user.email)
+              span.help-block 我们不会把你的邮箱告诉其他人
+            .form-group 
+              label(for='password') 密码
+              input#password.form-control(type='password', name="password")
+              span.help-block 不能少于7个字符，并最好至少包含一个小写字母和一个数字
+            .form-group 
+              label(for='repassword') 确认密码
+              input#re_password.form-control(type='password', name="re_password")
+            .alert.alert-warning
+              p 点击下面的 "创建帐号" 按钮, 表示你同意接受我们的 
+                strong
+                  a(href='/static/service') 服务条款
+                |   及   
+                strong
+                  a(href='/static/privacy') 隐私政策 
+            .form-group
+              input.btn.btn-lg.btn-success.pull-right.submit(type='submit',value='创建帐号')
+
+        .col-md-6      
+          p NodeCoffee的资源性：资讯、教程、书籍
+          p NodeCoffee的社区性：项目、人物、问答
+block javascript
+  script(type='text/javascript').
+    $(document).ready(function(){
+     $('#signup-form').validate( {
+      onkeyup: false,
+      submitHandler: function(form) {
+        form.submit();
+      },
+      rules: {
+        username: {
+          minlength: 2,
+          maxlength: 12,
+          required: true
+        },
+        email: {
+          required: true,
+          email: true,
+          remote:  {
+            url: '/validate/signup/email',
+            type: "get",
+            async: false,
+            dataFilter: function(data) {
+                          return JSON.parse(data).valid === true;
+                       }
+          }
+        },
+        password: {
+          minlength: 7,
+          maxlength: 64,
+          required: true
+        },
+        re_password: {
+          equalTo: "#password"
+        }
+      },
+      messages: {
+        email: {
+          remote: jQuery.format({"{0} 已经注册了"})
+        }
+      },
+      highlight: function(element) {
+        $(element).closest('.form-group').addClass('has-error').removeClass('has-success');
+      },
+      success: function(element) {
+        $(element).closest('.form-group').addClass('has-success').removeClass('has-error');
+        $(element).closest('.error').remove();
+      }
+     });
+    }); // end document.ready

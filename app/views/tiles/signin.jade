@@ -1,0 +1,22 @@
+div(id='sign-in-modal',class='modal fade',role="dialog",tabindex="-1",aria-labelledby="signInLabel",aria-hidden="true")
+  .modal-dialog(style='width:460px;')
+    .modal-content
+      .modal-header
+          button(type="button",class="close",data-dismiss="modal",aria-hidden="true") &times;
+          h3#signInLabel.modal-title 登录
+      .modal-body
+        form(id='signInForm',action='/login',method='post',role="form")
+          .form-group
+            label(for='signInEmail') Email
+            input(id='signInEmail',class='form-control',type='email',name='email', placeholder='请输入Email')
+          .form-group
+            label(for='signInPassword') 密码
+            input(id='signInPassword',class='form-control',type='password', name='password', placeholder='输入密码')
+          .form-group
+            input(class='btn btn-primary btn-large',type='submit',value='登录')   
+            .pull-right
+              a(href='/signup') 还没账号？立即注册！
+              br   
+              a(href='/password') 忘记密码？
+          
+

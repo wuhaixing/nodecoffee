@@ -1,5 +1,72 @@
 extends layout
-
+block title
+  | 首页
 block content
-  h1= title
-  p Welcome to #{title}
+    #homeCarousel.carousel.slide
+        // Indicators
+        ol.carousel-indicators
+            li.active(data-target='#homeCarousel', data-slide-to='0')
+            li(data-target='#homeCarousel', data-slide-to='1')
+            li(data-target='#homeCarousel', data-slide-to='2')
+        .carousel-inner
+            .item.active
+              img(data-src='holder.js/900x500/auto/#777:#7a7a7a/text:First slide', alt='First slide')
+              .container
+                .carousel-caption
+                  h1 Node Coffee
+                  p
+                    | Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+                  p
+                    a.btn.btn-large.btn-primary(href='/signup', role='button') 现在就注册
+            .item
+              img(data-src='holder.js/900x500/auto/#666:#6a6a6a/text:Second slide', alt='Second slide')
+              .container
+                .carousel-caption
+                  h1 Another example headline.
+                  p
+                    | Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+                  p
+                    a.btn.btn-large.btn-primary(href='#', role='button') 了解详情
+            .item
+              img(data-src='holder.js/900x500/auto/#555:#5a5a5a/text:Third slide', alt='Third slide')
+              .container
+                .carousel-caption
+                  h1 One more for good measure.
+                  p
+                    | Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+                  p
+                    a.btn.btn-large.btn-primary(href='#', role='button') 浏览项目
+        a.left.carousel-control(href='#homeCarousel', data-slide='prev')
+            span.glyphicon.glyphicon-chevron-left
+        a.right.carousel-control(href='#homeCarousel', data-slide='next')
+            span.glyphicon.glyphicon-chevron-right
+
+    // Wrap the rest of the page in another container to center all the content.
+    .container.marketing 
+        // Three columns of text below the carousel
+        .row
+            .col-lg-4
+              img.img-circle(data-src='holder.js/140x140', alt='140x140', style='width: 140px; height: 140px;')
+              h2 Heading
+              p
+                | Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.
+              p
+                a.btn.btn-default(href='http://v3.bootcss.com/examples/carousel/#', role='button') View details »
+            .col-lg-4
+              img.img-circle(data-src='holder.js/140x140', alt='140x140', style='width: 140px; height: 140px;')
+              h2 Heading
+              p
+                | Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.
+              p
+                a.btn.btn-default(href='http://v3.bootcss.com/examples/carousel/#', role='button') View details »
+            .col-lg-4
+              img.img-circle(data-src='holder.js/140x140', alt='140x140', style='width: 140px; height: 140px;')
+              h2 Heading
+              p
+                | Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+              p
+                a.btn.btn-default(href='http://v3.bootcss.com/examples/carousel/#', role='button') View details »
+
+
+
+

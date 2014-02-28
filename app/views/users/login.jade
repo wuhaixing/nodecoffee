@@ -1,0 +1,36 @@
+extends ../layout
+
+block title
+  | 登录
+block content
+  .container(style='margin-top:110px;')
+    .col-md-10.col-md-offset-1
+      .row
+        .col-md-8
+          h2 欢迎访问Node Coffee社区
+        .col-md-2.col-md-offset-2
+          h2
+            small
+              
+      hr
+      .well
+        .row
+          .col-md-5.col-md-offset-1
+            h3 登录
+            if message != null && message.length > 0
+              .alert.alert-danger.alert-dismissable
+                button.close(type="button",data-dismiss="alert",aria-hidden="true") &times;
+                p #{message}
+            form(id='signInForm',action='/login',method='post',role="form")
+              .form-group
+                input.form-control(id='signInEmail',type='email',name='email', placeholder='请输入Email')
+              .form-group
+                input.form-control(id='signInPassword',type='password',name='password', placeholder='输入密码')
+              .form-group                
+                input(class='btn btn-primary btn-lg',type='submit',value='登录')   
+                .pull-right
+                  a(href='/signup') 还没账号？立即注册！
+                  br   
+                  a(href='/password') 忘记密码？
+          .col-md-5
+            a(href="/auth/google") Google

@@ -1,0 +1,14 @@
+extends layout
+block title
+  | 提示！
+block content
+  .container(style='margin-top:110px;')
+    .col-md-10.col-md-offset-1
+      .row
+        h2 提示！
+        hr
+        .well
+          if msg
+            .alert.alert-success.alert-dismissable
+                button.close(type="button",data-dismiss="alert",aria-hidden="true") &times;
+                p #{msg}

@@ -1,7 +1,3 @@
-
-/**
- * Module dependencies.
- */
 var express = require('express');
 var http = require('http');
 var path = require('path');
@@ -19,7 +15,7 @@ require('./config/passport')(passport, config);
 
 require('./config/express')(app,config,passport);
 
-require('./config/routes')(app);
+require('./config/routes')(app,passport);
 
 // Bootstrap database
 console.log('Connecting to database at ' + config.db);

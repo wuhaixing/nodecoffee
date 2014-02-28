@@ -28,42 +28,25 @@
             li
               a(href='/qa') 问答
           ul.nav.navbar-nav.pull-right                                       
+            li.divider-vertical
             if typeof req.user != 'undefined' && req.user != null
                 li(id='nav-profile')
-                    a(href='/profile/#{req.user._id}') #{req.user.name}
+                    a(href='/profile/#{req.user._id}') #{req.user.displayName}
                 li
                     a(class='tooltipped',id='messages',href='/messages',title='查看消息' )
-                       i.icon-envelope.icon
+                       span.glyphicon.glyphicon-envelope
                 li
                    a(href='/settings/profile',id='account_settings',class='tooltipped',title='帐号设置')
-                      span
-                         i.icon-wrench.icon
+                      span.glyphicon.glyphicon-wrench
                 li
                    a(href='/logout',class='tooltipped',data-method='post',id='logout',title='退出登录')
-                      span
-                         i.icon-off.icon
+                      span.glyphicon.glyphicon-off
             else
               li
                 a(href='#sign-in-modal',data-toggle='modal') 登录
               li
                 a(href='/signup') 注册
-            li.divider-vertical
-            li.dropdown
-              a.dropdown-toggle(href='#', data-toggle='dropdown')
-                | 关于
-                b.caret
-              ul.dropdown-menu
-                li
-                  a(href='#') Action
-                li
-                  a(href='#') Another action
-                li
-                  a(href='#') Something else here
-                li.divider
-                li.dropdown-header Nav header
-                li
-                  a(href='#') Separated link
-                li
-                  a(href='#') One more separated link
+            
+            
 if !req.user
    include signin                                

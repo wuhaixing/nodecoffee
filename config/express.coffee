@@ -3,6 +3,7 @@ path = require 'path'
 mongoStore = require('connect-mongo')(express)
 expressValidator = require 'express-validator'
 helpers = require 'view-helpers'
+flash = require 'connect-flash'
 
 module.exports = (app,config,passport) ->
     #all environments
@@ -12,7 +13,7 @@ module.exports = (app,config,passport) ->
     app.set "view engine", "jade"
     app.use express.favicon()
     app.use(helpers(config.app.name))
-    app.use express.logger("dev")
+    # app.use express.logger("dev")
 
     app.use express.compress
         filter: (req, res) ->
@@ -41,11 +42,12 @@ module.exports = (app,config,passport) ->
     app.use express.methodOverride()
     app.use express.cookieParser()
     app.use express.session
-      secret: 'p8zztgch48rehu79jskhm6aj3'
+      secret: config.secret
       store: new mongoStore
         url: config.db,
         collection : 'sessions'
-
+    
+    app.use flash()
     app.use passport.initialize()
     app.use passport.session()
 
@@ -56,3 +58,5 @@ module.exports = (app,config,passport) ->
 
     # development only
     app.use express.errorHandler()  if "development" is app.get("env")
+
+    

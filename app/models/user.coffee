@@ -1,21 +1,20 @@
 mongoose = require 'mongoose'
 bcrypt = require 'bcrypt'
 _ = require 'underscore'
-authTypes = ['github', 'weibo', 'google']
 
 Schema = mongoose.Schema
 UserSchema = new Schema 
-  username:
-    type: String
-    index: true
-
-  password:
-    type: String
-
+  
   email:
     type: String
     unique: true
 
+  password:
+    type: String
+
+  github:{}
+  google:{}
+  
   url:
     type: String
 
@@ -81,7 +80,7 @@ UserSchema = new Schema
 
   active:
     type: Boolean
-    default: true
+    default: false
 
   receiveReplyMail:
     type: Boolean
@@ -97,6 +96,10 @@ UserSchema = new Schema
   retrieveKey:
     type: String
 
+UserSchema.virtual('token').get ()->
+  salt = bcrypt.genSaltSync(10)
+  token = bcrypt.hashSync(@password, salt)
+
 #
 # Hash password before saving
 #
@@ -104,30 +107,66 @@ UserSchema.pre 'save', (next) ->
   user = this
   SALT_WORK_FACTOR = 10
 
-  if !user.isModified 'password'
-    console.log 'Password not modified'
-    return next()
-
   return next() unless user.isModified 'password'
 
   bcrypt.genSalt SALT_WORK_FACTOR, (err, salt) ->
-    return next err if err
+    if err
+      console.error err
+      return next err 
     bcrypt.hash user.password, salt, (err, hash) ->
-      return next err if err
+      if err
+        console.error err
+        return next err 
       user.password = hash
       next()
       return
-
     return
-
 #
 # Compare password method for authentication
 #
 UserSchema.methods = 
   comparePassword : (candidatePassword, cb) ->
-    bcrypt.compare candidatePassword, this.password, (err, isMatch) ->
+    # console.log "compare #{candidatePassword} with #{@password}"
+    bcrypt.compare  candidatePassword,@password, (err, isMatch) ->
       if err
+        console.error err
         return cb err
       cb(null, isMatch)
+
+#
+# Schema statics
+#
+UserSchema.statics =
+  findByEmail: (email, cb) ->
+    @findOne({ email : email })
+    .select('username email password active')
+    .exec(cb)
+  
+  findByToken: (identifier, cb) ->
+    @findOne({ contactId : identifier })
+    .select('contact')
+    .exec(cb)
+
+  activeByToken: (email,token,cb) ->
+    @findOne({ email : email }).exec (err,user)->
+      if err?
+        cb err,null,0
+      if user
+        
+        console.log "compare #{token}"
+        bcrypt.compare token,user.password,(err,isMatch)->
+          if err?
+            console.error err
+            cb err,null 
+          if isMatch
+            user.active = true
+            user.save cb 
+          else
+            cb "token is not match",null,0
+      else
+        cb "cann't find user by email #{email}",null,0
+      return 
+
+
       
 User = mongoose.model 'User', UserSchema

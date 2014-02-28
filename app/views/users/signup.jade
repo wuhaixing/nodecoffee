@@ -4,53 +4,55 @@ block title
   | 注册
 
 block content
-  .container(style='margin-top:40px;')
-    hr
-    .row
-      .col-md-8
-        h2 注册成为NodeCoffee用户
-      .col-md-2.col-md-offset-2
-        h2
-          small
-            button.btn.btn-primary 用已有帐号登录  
-    hr
-    .well
+  .container(style='margin-top:110px;')
+    .col-md-10.col-md-offset-1
       .row
-        .col-md-6(style='border-right:1px solid #cccccc;')
-          h4 创建个人帐号
-          if typeof errors != 'undefined' && errors != null
-            .alert.alert-danger.alert-dismissable
-              button(type="button",class="close",data-dismiss="alert",aria-hidden="true") &times;
-              for error in errors
-                p #{error.msg}
-          form(id='signup-form',action="/signup", method="post",role='form')
-            .form-group 
-              label(for='username') 用户名
-              input#username.form-control(type='text', name="username", value=user.username)
-            .form-group 
-              label(for='email') Email
-              input#email.form-control(type='email', name="email", value=user.email)
-              span.help-block 我们不会把你的邮箱告诉其他人
-            .form-group 
-              label(for='password') 密码
-              input#password.form-control(type='password', name="password")
-              span.help-block 不能少于7个字符，并最好至少包含一个小写字母和一个数字
-            .form-group 
-              label(for='repassword') 确认密码
-              input#re_password.form-control(type='password', name="re_password")
-            .alert.alert-warning
-              p 点击下面的 "创建帐号" 按钮, 表示你同意接受我们的 
-                strong
-                  a(href='/static/service') 服务条款
-                |   及   
-                strong
-                  a(href='/static/privacy') 隐私政策 
-            .form-group
-              input.btn.btn-lg.btn-success.pull-right.submit(type='submit',value='创建帐号')
+        .col-md-8
+          h2 注册成为Node Coffee用户
+        .col-md-2.col-md-offset-2
+          h2
+            small
+              button.btn.btn-primary 用已有帐号登录  
+      hr
+      .well
+        h3 创建个人帐号
+        .row
+          .col-md-7
+            if typeof errors != 'undefined' && errors != null
+              .alert.alert-danger.alert-dismissable
+                button.close(type="button",data-dismiss="alert",aria-hidden="true") &times;
+                for error in errors
+                  p #{error.msg}
+            form(id='signup-form',action="/signup", method="post",role='form')
+              .form-group 
+                input#displayName.form-control(type='text', name="displayName", placeholder='给自己取个喜欢的名字',value=user.displayName)
+              .form-group 
+                input#email.form-control(type='email', name="email", placeholder='你的Email，登录用',value=user.email)
+                span.help-block 我们不会把你的Email告诉其他人
+              .form-group 
+                input#password.form-control(type='password', placeholder='一个复杂点儿的密码',name="password")
+                span.help-block 不能少于7个字符，最好混杂着各种大小写字母和数字
+              .form-group 
+                input#re_password.form-control(type='password', placeholder='为防止手误，请再输一次密码',name="re_password")
+              .alert.alert-warning
+                p.lead 点击下面的 "创建帐号" 按钮, 表示你同意接受我们的 
+                  strong
+                    a(href='/static/service') 服务条款
+                  |   及   
+                  strong
+                    a(href='/static/privacy') 隐私政策 
+              .form-group
+                input.btn.btn-lg.btn-success.pull-right.submit(type='submit',value='创建帐号')
 
-        .col-md-6      
-          p NodeCoffee的资源性：资讯、教程、书籍
-          p NodeCoffee的社区性：项目、人物、问答
+          .col-md-5
+            .thumbnail
+              img.img-rounded(src='img/signup.png')
+              .caption
+                h4 做一个整洁的社区
+                p 不做论坛，让问题杂乱无章堆砌
+                p 不做展台，让资源混乱无序生长
+                p 记录时光，记录那些人、那些事、那些陪伴我们成长的代码和文章
+
 block javascript
   script(type='text/javascript').
     $(document).ready(function(){
@@ -60,7 +62,7 @@ block javascript
         form.submit();
       },
       rules: {
-        username: {
+        displayName: {
           minlength: 2,
           maxlength: 12,
           required: true
@@ -88,7 +90,7 @@ block javascript
       },
       messages: {
         email: {
-          remote: jQuery.format({"{0} 已经注册了"})
+          remote: jQuery.format("{0} 已经注册了")
         }
       },
       highlight: function(element) {

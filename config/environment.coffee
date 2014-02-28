@@ -1,6 +1,15 @@
 module.exports =
   development:
     app:
-      name: 'Node社区'
+      host: 'localhost:3000'  
+      name: 'Node Coffee'
     root: require('path').normalize(__dirname + '/..')
-    db: process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/nodecoffee'
+    db: process.env.MONGOLAB_URI or process.env.MONGOHQ_URL or 'mongodb://localhost/nodecoffee'
+    secret:'p8zztgch48rehu79jskhm6aj3'    
+  production:
+    app:
+      host: 'localhost:3000'  
+      name: 'Node Coffee'
+    root: require('path').normalize(__dirname + '/..')
+    db: process.env.MONGOLAB_URI or process.env.MONGOHQ_URL or 'mongodb://localhost/nodecoffee'
+    secret:'p8zztgch48rehu79jskhm6aj3'
